@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Button } from 'reactstrap'
-import { onButtonClick } from './functions/nebpaytest'
+import CardExampleGroups from './components/Cards'
+import Splash from './components/Splash'
 
 class App extends Component {
 
@@ -10,14 +10,9 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          <Button onClick={() => onButtonClick()} style={{fontSize: "1.5em"}} > NebPay </Button>
-        </p>
+      <div>
+      <Splash/>
+        <div><CardExampleGroups /></div>
       </div>
     );
   }
