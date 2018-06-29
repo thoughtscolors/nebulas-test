@@ -3,8 +3,9 @@
 var DepositContent = function (text) {
   if (text) {
     var o = JSON.parse(text);
-    console.log("parsed text in DepositContent>>", o);
+    console.log(o);
     this.balance = new BigNumber(o.balance);
+    this.wish = o.wish
     this.expiryHeight = new BigNumber(o.expiryHeight);
   } else {
     this.balance = new BigNumber(0);
@@ -35,8 +36,7 @@ BankVaultContract.prototype = {
     //TODO:
   },
 
-  save: function (height) {
-    console.log("height in save>>>", height);
+  save: function (height, wish) {
     var from = Blockchain.transaction.from;
     var value = Blockchain.transaction.value;
     var bk_height = new BigNumber(Blockchain.block.height);
@@ -48,6 +48,7 @@ BankVaultContract.prototype = {
 
     var deposit = new DepositContent();
     deposit.balance = value;
+    deposit.wish = wish
     deposit.expiryHeight = bk_height.plus(height);
 
     this.bankVault.put(from, deposit);

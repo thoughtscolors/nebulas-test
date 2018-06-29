@@ -3,8 +3,10 @@
 var DepositContent = function (text) {
   if (text) {
     var o = JSON.parse(text);
+    console.log(o);
     this.balance = new BigNumber(o.balance);
-    this.expiryHeight = new BigNumber(o.expiryHeight);
+    this.wish = o.wish
+    this.user = o.user
   } else {
     this.balance = new BigNumber(0);
     this.expiryHeight = new BigNumber(0);
@@ -34,10 +36,9 @@ BankVaultContract.prototype = {
     //TODO:
   },
 
-  save: function (height) {
+  save: function (user, wish) {
     var from = Blockchain.transaction.from;
     var value = Blockchain.transaction.value;
-    var bk_height = new BigNumber(Blockchain.block.height);
 
     var orig_deposit = this.bankVault.get(from);
     if (orig_deposit) {
@@ -46,14 +47,15 @@ BankVaultContract.prototype = {
 
     var deposit = new DepositContent();
     deposit.balance = value;
-    deposit.expiryHeight = bk_height.plus(height);
+    deposit.wish = wish
+    deposit.user = user
 
     this.bankVault.put(from, deposit);
   },
 
   takeout: function (value) {
     var from = Blockchain.transaction.from;
-    var bk_height = new BigNumber(Blockchain.block.height);
+
     var amount = new BigNumber(value);
 
     var deposit = this.bankVault.get(from);
@@ -61,11 +63,7 @@ BankVaultContract.prototype = {
       throw new Error("No deposit before.");
     }
 
-    if (bk_height.lt(deposit.expiryHeight)) {
-      throw new Error("Can not takeout before expiryHeight.");
-    }
-
-    if (amount.gt(deposit.balance)) {
+    if (amount.get(deposit.balance)) {
       throw new Error("Insufficient balance.");
     }
 
@@ -84,10 +82,12 @@ BankVaultContract.prototype = {
     deposit.balance = deposit.balance.sub(amount);
     this.bankVault.put(from, deposit);
   },
+  
   balanceOf: function () {
     var from = Blockchain.transaction.from;
     return this.bankVault.get(from);
   },
+
   verifyAddress: function (address) {
     // 1-valid, 0-invalid
     var result = Blockchain.verifyAddress(address);
@@ -96,4 +96,5 @@ BankVaultContract.prototype = {
     };
   }
 };
+
 module.exports = BankVaultContract;
