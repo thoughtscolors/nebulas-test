@@ -9,7 +9,7 @@ var nebPay = new NebPay();
 class CardGroup extends Component {
 
   state = {
-    messages: []
+    wishes: []
   }
 
 parseResponse = async (resp) => {
@@ -19,7 +19,7 @@ parseResponse = async (resp) => {
     }
     const result = await JSON.parse(resp.result)
     console.log("PARSERESULT>>>", result);
-    this.setState({ messages: result })
+    this.setState({ wishes: result })
   } catch (err) {
     console.log(err);
     return err
@@ -27,11 +27,11 @@ parseResponse = async (resp) => {
 }
 
 
-  getMessages = async (count) => {
+  getWishes = async (count) => {
 
-      var to = "n221k8bYq4oevaXhDQFfJa6u56wpUT92Vo6";   //the smart contract address of your Dapp
+      var to = "n1yhXbxnVhQNeV8HMKyh9oLwKLwor2wupxZ";   //the smart contract address of your Dapp
       var value = ".0000001";
-      var callFunction = "getMessages" //the function name to be called
+      var callFunction = "getWishes" //the function name to be called
       var callArgs; //the parameter, it's format JSON string of parameter arrays, such as'["arg"]','["arg1","arg2]'
       var options = {
           goods: {        //commodity description
@@ -50,7 +50,7 @@ parseResponse = async (resp) => {
 
 
 componentDidMount = () => {
-  this.getMessages()
+  this.getWishes()
   // let messages = getMessages()
   // this.setState({ messages })
   // console.log("MESSAGES>>>", messages);
@@ -59,17 +59,21 @@ componentDidMount = () => {
 
 
 render() {
-let { messages } = this.state
-console.log(">>>>", messages);
-  return (<Card.Group>
-    {!messages ? "Nada" : messages.map((message, index) => {
+let { wishes } = this.state
+console.log(">>>>", wishes);
+  return ( <div style={{margin: "1em 0 1em 0"}}>
+    <div style={{margin: "auto", textAlign:"center"}}>
+      <Button inverted color="purple" onClick={() => this.getWishes()} style={{fontSize: "1.2em"}}> Refresh Wishes </Button>
+    </div>
+    <Card.Group style={{margin: "1em 0 2em 0"}}>
+    {!wishes.length ? "Nada" : wishes.map((wish, index) => {
       return (<Card key={index}>
         <Card.Content>
           <Image floated='right' size='mini' src='/assets/images/avatar/large/steve.jpg' />
-          <Card.Header>{message.name}</Card.Header>
-          <Card.Meta>Friends of Elliot</Card.Meta>
+          <Card.Header>{wish.name}</Card.Header>
+          <Card.Meta>{wish.value}</Card.Meta>
           <Card.Description>
-            {message.msg}
+            {wish.wish}
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
@@ -86,6 +90,7 @@ console.log(">>>>", messages);
     })}
 
   </Card.Group>
+</div>
 )}}
 
 

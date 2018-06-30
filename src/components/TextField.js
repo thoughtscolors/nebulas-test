@@ -5,7 +5,7 @@ import { onButtonClick } from '../functions/nebpaytest'
 import { buttonClick } from '../functions/banktest'
 import { pureNeb } from '../functions/purenebpay'
 import { Input } from 'semantic-ui-react'
-import { newUserTest, msgTest, getMessageCount, getMessages } from '../functions/chatTest'
+import { makeAWish, getWishCount, getWishingWellBalance, grantWish } from "../functions/makeAWish"
 
 class TextField extends Component {
 
@@ -42,13 +42,11 @@ render() {
       }}/>
 
     </Form>
-    <Button inverted color="purple" onClick={() => onButtonClick()} style={{fontSize: "1.2em"}}> NebPay </Button>
-    <Button inverted color="red" onClick={() => buttonClick(this.state.wish)} style={{fontSize: "1.2em"}}> BankTest </Button>
-    <Button inverted color="blue" onClick={() => pureNeb(this.state.user, this.state.wish)} style={{fontSize: "1.2em"}}> PureNeb </Button>
-    <Button inverted color="purple" onClick={() => newUserTest(this.state.name)} style={{fontSize: "1.2em"}}> NewUserTest </Button>
-    <Button inverted color="red" onClick={() => msgTest(this.state.message)} style={{fontSize: "1.2em"}}> MsgTest </Button>
-    <Button inverted color="red" onClick={() => getMessageCount()} style={{fontSize: "1.2em"}}> GetMsgCount </Button>
-    <Button inverted color="red" onClick={() => getMessages()} style={{fontSize: "1.2em"}}> getMsgTest </Button>
+    <Button inverted color="purple" onClick={() => makeAWish(this.state.name, this.state.wish)} style={{fontSize: "1.2em"}}> Make A Wish </Button>
+    <Button inverted color="red" onClick={() => getWishCount()} style={{fontSize: "1.2em"}}> Wish Count </Button>
+    <Button inverted color="blue" onClick={() => getWishingWellBalance()} style={{fontSize: "1.2em"}}> Wish Balance </Button>
+    <Button inverted color="green" onClick={() => grantWish()} style={{fontSize: "1.2em"}}> Grant Wish </Button>
+
 
   </div>
   )
