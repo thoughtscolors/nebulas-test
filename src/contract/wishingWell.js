@@ -60,6 +60,7 @@ WishContract.prototype = {
   grantWish: function() {
     var wishes = []
     var wishCount = +this.wishCount
+    //aware that random is not ok, would create a random number outside of this smart contract in external code
     var count = Math.floor(Math.random() * wishCount)
     return this.wishes.get(wishCount - count).id
 
